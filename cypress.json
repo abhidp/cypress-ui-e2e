@@ -1,1 +1,7 @@
-{"baseUrl":"https://shell.rogue.dev.myob.com"}
+{
+  "baseUrl": "https://shell.rogue.dev.myob.com",
+  "env": {
+    "user": "nzaepractice4@gmail.com",
+    "pass": "Myob1234"
+  }
+}

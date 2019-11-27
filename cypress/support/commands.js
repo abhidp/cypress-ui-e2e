@@ -66,12 +66,49 @@ Cypress.Commands.add('gotoAgencyDetails', () => {
     .should('eq', '/settings/nz/agent-details')
 })
 
-Cypress.Commands.add('createNZagent', (agencyName, irdNumber) => {
+Cypress.Commands.add('createNZagentAPI', (agencyName, irdNumber) => {
   cy.request(data.loginData).then(response => {
     data.createAgentRequest.headers.Authorization = `Bearer ${response.body.access_token}`
     data.createAgentRequest.body.irNumber = irdNumber
     data.createAgentRequest.body.name = agencyName
     data.createAgentRequest.body.clientListNumber = irdNumber
     cy.request(data.createAgentRequest)
+  })
+})
+
+Cypress.Commands.add('getAllAgentsAPI', () => {
+  cy.request(data.loginData).then(response => {
+    data.getAgentRequest.headers.Authorization = `Bearer ${response.body.access_token}`
+    cy.request(data.getAgentRequest).then(get => {
+      if (get.body.included === undefined) {
+        cy.log('No Agents in the DB')
+        cy.writeFile('cypress/fixtures/agentsList.json', {})
+      } else {
+        cy.writeFile('cypress/fixtures/agentsList.json', get.body.included)
+      }
+    })
+  })
+})
+
+Cypress.Commands.add('deleteAllAgentsAPI', () => {
+  cy.request(data.loginData).then(response => {
+    cy.readFile('cypress/fixtures/agentsList.json').then(content => {
+      data.deleteAgentRequest.headers.Authorization = `Bearer ${response.body.access_token}`
+      cy.log('content == ', content)
+      if (content == {}) {
+        cy.log('Nothing to Delete')
+      } else {
+        for (let i = 0; i < content.length; i++) {
+          data.deleteAgentRequest.url =
+            Cypress.env('apiBaseUrl') + '/nz/agents/' + `${content[i].id}`
+          cy.log(data.deleteAgentRequest.url)
+          cy.request(data.deleteAgentRequest).then(del => {
+            data.deleteAgentRequest.url =
+              Cypress.env('apiBaseUrl') + '/nz/agents/' + `${content[i].id}`
+            cy.log('Response', JSON.stringify(del))
+          })
+        }
+      }
+    })
   })
 })

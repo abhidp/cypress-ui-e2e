@@ -32,10 +32,10 @@ export function IRDNumber() {
 
 export const loginData = {
   method: 'POST',
-  url: 'https://sit.login.myob.com/oauth2/token',
+  url: Cypress.env('apiAuthToken'),
   auth: {
-    username: 'agent-delete-client-has-access',
-    password: 'Tsq\\j7QP8DaA9+7//#qy'
+    username: Cypress.env('apiUser'),
+    password: Cypress.env('apiPass')
   },
   headers: {
     'Content-Type': 'application/x-www-form-urlencoded'
@@ -48,11 +48,10 @@ export const loginData = {
 
 export const createAgentRequest = {
   method: 'POST',
-  url:
-    'https://tax-lodgement-api-sit.apps.svc.platform.myobdev.com/api/nz/agents',
+  url: Cypress.env('apiBaseUrl') + '/nz/agents',
   headers: {
     Accept: 'application/vnd.api+json',
-    'x-myobapi-tenantid': 'f524999e-5bc6-408d-a733-ed9335673869',
+    'x-myobapi-tenantid': Cypress.env('apiTenantId'),
     'x-myobapi-requestid': '809a8378-1542-437b-b9b0-32550cb6c07f',
     'Content-Type': 'application/json'
   },
@@ -61,11 +60,20 @@ export const createAgentRequest = {
 
 export const getAgentRequest = {
   method: 'GET',
-  url:
-    'https://tax-lodgement-api-sit.apps.svc.platform.myobdev.com/api/nz/agents',
+  url: Cypress.env('apiBaseUrl') + '/nz/agents',
   headers: {
     Accept: 'application/vnd.api+json',
-    'x-myobapi-tenantid': 'f524999e-5bc6-408d-a733-ed9335673869',
+    'x-myobapi-tenantid': Cypress.env('apiTenantId'),
     'x-myobapi-requestid': '809a8378-1542-437b-b9b0-32550cb6c07f'
+  }
+}
+
+export const deleteAgentRequest = {
+  method: 'DELETE',
+  headers: {
+    Accept: 'application/vnd.api+json',
+    'x-myobapi-tenantid': Cypress.env('apiTenantId'),
+    'x-myobapi-requestid': '809a8378-1542-437b-b9b0-32550cb6c07f',
+    'Content-Type': 'application/json'
   }
 }

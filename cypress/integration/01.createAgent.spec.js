@@ -2,7 +2,7 @@ import { randomString, randomNumber, IRDNumber } from '../support/helper'
 import * as agency from '../fixtures/agencyDetails.json'
 
 describe('Create Agent Settings Spec', () => {
-  it('Validate Click Add agency modal window', () => {
+  xit('Validate Click Add agency modal window', () => {
     //click Add agency button
     cy.contains('Add agency')
       .click()
@@ -30,7 +30,7 @@ describe('Create Agent Settings Spec', () => {
       .click()
   })
 
-  it('Validate error msgs for entering invalid values', () => {
+  xit('Validate error msgs for entering invalid values', () => {
     cy.contains('Add agency')
       .click()
 
